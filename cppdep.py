@@ -53,7 +53,11 @@ def grep(pattern, file_obj):
 def grep_hfiles(src_file):
     hfiles = list()
     #f = open(src_file, encoding='iso8859-1')
-    f = open(src_file, 'rb')
+    try:
+        f = open(src_file, 'rb')
+    except Exception:
+        print 'error: failed to open %s' % src_file
+        return hfiles
     for elem in grep(b'^\s*#include\s*(<(?P<hfile>.+)>|"(?P<hfile2>.+)")\s*', f):
         m = elem[2]
         if(m.group('hfile')):
@@ -312,7 +316,7 @@ def make_cdep():
         if(len(hfiles)==0):
             continue
         comp_hfile = os.path.basename(comp.hpath)
-        # Detect first header issues issues.
+        # Detect first header issues.
         ind_comp_hfile = -1
         try:
             ind_comp_hfile = hfiles.index(comp_hfile)
@@ -564,7 +568,7 @@ def calculate_graph(digraph, dot_basename=None):
     if(size_graph==0):
         return
     if(dot_basename):
-        nx.write_dot(digraph, dot_basename+'_orig.dot')
+        nx.nx_agraph.write_dot(digraph, dot_basename+'_orig.dot')
     key_node = str
     key_edge = lambda x: str(x[0])+'->'+str(x[1])
     (cycles, dict_node2cycle) = make_DAG(digraph, key_node)
@@ -613,8 +617,8 @@ def calculate_graph(digraph, dot_basename=None):
             g = nx.DiGraph()
             for cycle in cycles.values():
                 g.add_edges_from(cycle.edges_iter())
-            nx.write_dot(g, dot_basename+'_cycles.dot')
-        nx.write_dot(digraph, dot_basename+'_final.dot')
+            nx.nx_agraph.write_dot(g, dot_basename+'_cycles.dot')
+        nx.nx_agraph.write_dot(digraph, dot_basename+'_final.dot')
 
 def main():
     usage = '''cppdep.py is designed for analyzing dependencies among components/packages/package groups of a large C/C++ project.

@@ -4,7 +4,7 @@
 Graph algorithms used in chapter 4 and appendix C of Large-Scale C++ Software Design.
 
 A Python Graph API? http://wiki.python.org/moin/PythonGraphApi
-It seems that the best one is NetworkX(http://networkx.lanl.gov/).
+It seems that the best one is NetworkX(http://networkx.github.io/).
 
 zhichyu@jupiter:~/cppdep$ ./networkx_ext.py 
 ================================================================================
@@ -75,7 +75,7 @@ def make_DAG(digraph, key_node=None):
         dict_node2cycle[node] = None
     # Strip all selfloop edges silently.
     digraph.remove_edges_from(digraph.selfloop_edges())
-    subgraphs = nx.strongly_connected_component_subgraphs(digraph)
+    subgraphs = sorted(nx.strongly_connected_component_subgraphs(digraph), key=len, reverse=True)
     for ind in range(len(subgraphs)-1, -1, -1):
         subgraph = subgraphs[ind]
         if(subgraph.number_of_nodes()==1):
@@ -228,4 +228,5 @@ if __name__ == '__main__':
     nccd = ccd/ccd_fullBTree
     print 'CCD: %d\t NCCD: %f(typical range is [0.85, 1.10])\t SIZE: %d'%(ccd, nccd, size)
     print 'cumulate dependencies: ' + repr(dict_cd)
+    nx.nx_agraph.write_dot(digraph, 'all_packages.dot')
 

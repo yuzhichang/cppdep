@@ -35,9 +35,10 @@ Limitation/Bugs:
 
 Requires:
 1) Python 2.7
-2) NetworkX from http://networkx.lanl.gov/.
-Note: NetworkX 1.7 and all of its dependencies can be installed on LinuxMint 15 as following:
-$ sudo apt-get install python-networkx
+2) NetworkX 1.11 from http://networkx.github.io/.
+3) PyGraphviz 1.3.1 from http://pygraphviz.github.io/.
+Note: They can be installed on LinuxMint 18 as following:
+$ sudo apt-get install python-networkx python-pygraphviz
 
 Here's how to convert a Graphviz dot file to PDF format.
 $ dot -Tpdf graph1.dot -o graph1.pdf
