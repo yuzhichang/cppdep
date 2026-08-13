@@ -96,6 +96,8 @@ def make_DAG(digraph, key_node=None):
         nodes.remove(min_node)
         # print 'min_node: %s, other nodes: ' % str(min_node), ' '.join(map(str, nodes))
         for node in nodes:
+            if node not in digraph:
+                continue
             pre_nodes = digraph.predecessors(node)
             suc_nodes = digraph.successors(node)
             for pre_node in pre_nodes:
